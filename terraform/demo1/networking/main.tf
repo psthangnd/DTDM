@@ -14,6 +14,16 @@ resource "aws_subnet" "main" {
   vpc_id            = aws_vpc.main.id
 }
 
+# NI for EC2
+resource "aws_network_interface" "ni" {
+  subnet_id   = aws_subnet.main[0].id
+  private_ips = ["172.16.10.100"]
+
+  tags = {
+    Name = "primary_network_interface"
+  }
+}
+
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
 }

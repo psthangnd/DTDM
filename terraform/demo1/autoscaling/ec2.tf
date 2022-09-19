@@ -10,7 +10,15 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "ec2_first" {
-  count         = 1
+  tags = {
+    Name = "ec2_first"
+  }
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.ec2_instance_type
+  count         = 1
+  key_name		= "Line-chatbot"
+  #network_interface {
+  #  network_interface_id = aws_network_interface.ni.id
+  #  device_index         = 0
+  #}
 }
