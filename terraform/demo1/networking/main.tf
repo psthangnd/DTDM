@@ -1,6 +1,9 @@
 ## VPC
 resource "aws_vpc" "main" {
   cidr_block	= var.cidr_block
+  tags = {
+    Name = "My VPC"
+  }
 }
 
 
@@ -15,17 +18,20 @@ resource "aws_subnet" "main" {
 }
 
 # NI for EC2
-resource "aws_network_interface" "ni" {
-  subnet_id   = aws_subnet.main[0].id
-  private_ips = ["172.16.10.100"]
+#resource "aws_network_interface" "ni" {
+#  subnet_id   = aws_subnet.main[0].id
+#  private_ips = ["10.16.10.100"]
 
-  tags = {
-    Name = "primary_network_interface"
-  }
-}
+#  tags = {
+#    Name = "primary_network_interface"
+#  }
+#}
 
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
+  tags = {
+    Name = "My internet gateway"
+  }
 }
 
 resource "aws_route_table" "r" {
@@ -34,6 +40,9 @@ resource "aws_route_table" "r" {
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.gw.id
+  }
+  tags = {
+    Name = "My Route table"
   }
 }
 
@@ -65,21 +74,21 @@ resource "aws_security_group" "default" {
   }
 
   tags = {
-    Name = var.sg_name
+    Name = "My Security Group"
   }
 }
 
 
 ## Subnet
-resource "aws_subnet" "line-chatbot-subnet1" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = var.line-chatbot-subnet1_cidr
-  availability_zone = var.az_1
+#resource "aws_subnet" "line-chatbot-subnet1" {
+#  vpc_id            = aws_vpc.main.id
+#  cidr_block        = var.line-chatbot-subnet1_cidr
+#  availability_zone = var.az_1
 
-  tags = {
-    Name = "line-chatbot-subnet1"
-  }
-}
+#  tags = {
+#    Name = "line-chatbot-subnet1"
+#  }
+#}
 
 resource "aws_subnet" "line-chatbot-subnet2" {
   vpc_id            = aws_vpc.main.id
