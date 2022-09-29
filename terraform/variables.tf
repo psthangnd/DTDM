@@ -78,12 +78,12 @@ variable "db_instance_class" {
 }
 
 variable "db_name" {
-  default     = "line-chatbot-mysql"
+  default     = "chatbot"
   description = "DB name"
 }
 
 variable "username" {
-  default     = "admin@psnet.asia"
+  default     = "admin"
   description = "User name"
 }
 

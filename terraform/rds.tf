@@ -18,7 +18,6 @@ resource "aws_db_instance" "default" {
 resource "aws_db_subnet_group" "default" {
   name        = "main_subnet_group"
   description = "Our main group of subnets"
-  subnet_ids  = [aws_subnet.line_chatbot_public_subnet1.id, 
-				aws_subnet.line_chatbot_public_subnet2.id, 
+  subnet_ids  = [aws_subnet.line_chatbot_public_subnet2.id, 
 				aws_subnet.line_chatbot_public_subnet3.id]
 }

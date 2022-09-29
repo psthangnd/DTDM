@@ -52,5 +52,5 @@ resource "aws_s3_bucket_object" "object" {
   key    = replace(each.value, "static-web", "")
   source = each.value
   etag         = filemd5("${each.value}")
-  ##content_type = lookup(local.mime_types, split(".", each.value)[length(split(".", each.value)) - 1])
+  #content_type = lookup(local.mime_types, split(".", each.value)[length(split(".", each.value)) - 1])
 }
