@@ -1,0 +1,56 @@
+## https://line-chatbot-static.s3.us-east-2.amazonaws.com/index.html
+
+resource "aws_s3_bucket" "static" {
+  bucket = "line-chatbot-static"
+  acl    = "public-read"
+  
+  policy = <<POLICY
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "PublicReadGetObject",
+        "Effect": "Allow",
+        "Principal": "*",
+        "Action": [
+          "s3:GetObject"
+        ],
+        "Resource": [
+          "arn:aws:s3:::line-chatbot-static/*"
+        ]
+      }
+    ]
+  }
+  POLICY
+
+  website {
+    index_document = "index.html"
+    error_document = "error.html"
+  }
+}
+
+locals {
+  mime_types = {
+    html  = "text/html"
+    css   = "text/css"
+    ttf   = "font/ttf"
+    woff  = "font/woff"
+    woff2 = "font/woff2"
+    js    = "application/javascript"
+    map   = "application/javascript"
+    json  = "application/json"
+    jpg   = "image/jpeg"
+    png   = "image/png"
+    svg   = "image/svg+xml"
+    eot   = "application/vnd.ms-fontobject"
+  }
+}
+
+resource "aws_s3_bucket_object" "object" {
+  for_each = fileset(path.module, "static-web/**/*")
+  bucket = aws_s3_bucket.static.id
+  key    = replace(each.value, "static-web", "")
+  source = each.value
+  etag         = filemd5("${each.value}")
+  content_type = lookup(local.mime_types, split(".", each.value)[length(split(".", each.value)) - 1])
+}

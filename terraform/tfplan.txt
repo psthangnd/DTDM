@@ -1,0 +1,10 @@
+
+Warning: Argument is deprecated
+
+  with aws_db_instance.default,
+  on rds.tf line 6, in resource "aws_db_instance" "default":
+   6:   name                   = var.db_name
+
+Use db_name instead
+
+(and 69 more similar warnings elsewhere)
